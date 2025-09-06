@@ -1,4 +1,6 @@
-﻿namespace SurrealNumber;
+﻿using System.Globalization;
+
+namespace SurrealNumber;
 
 public readonly struct SurrealNum : IComparable<SurrealNum>, IEquatable<SurrealNum>
 {
@@ -16,7 +18,7 @@ public readonly struct SurrealNum : IComparable<SurrealNum>, IEquatable<SurrealN
 
     public static SurrealNum CreateInternal(SetGenerator l, SetGenerator r) => new(l, r);
 
-    public override string ToString() => this.ConvertToString();
+    public override string ToString() => this.ConvertToDouble().ToString(CultureInfo.InvariantCulture);
 
 
     public override int GetHashCode() => SurrealNumberHashCode.GetHash(L, R);
@@ -34,7 +36,9 @@ public readonly struct SurrealNum : IComparable<SurrealNum>, IEquatable<SurrealN
 
     public static bool operator >(SurrealNum a, SurrealNum b) => !(a <= b);
 
+    public static SurrealNum operator *(SurrealNum a, SurrealNum b) => a.Mul(b);
     public static SurrealNum operator +(SurrealNum a, SurrealNum b) => a.Add(b);
+    public static SurrealNum operator -(SurrealNum a, SurrealNum b) => a + -b;
     public static SurrealNum operator -(SurrealNum a) => a.Negate();
 
     public bool Equals(SurrealNum other) => L.Equals(other.L) && R.Equals(other.R);

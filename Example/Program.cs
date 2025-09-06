@@ -1,7 +1,7 @@
-﻿using SurrealNumber;
-using static SurrealNumber.SurrealCacheNumbers;
+﻿using static SurrealNumber.SurrealCacheNumbers;
 
 var three = One + One + One;
-Console.WriteLine(three.ConvertToDouble());
-Console.WriteLine(-three);
-Console.WriteLine(- -three);
+var four = One + One + One + One;
+
+Console.WriteLine(three * four);
+Console.WriteLine(three + three + three + three);

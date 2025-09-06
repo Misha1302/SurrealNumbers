@@ -2,8 +2,10 @@ namespace SurrealNumber;
 
 public static class SurrealNumberBasicAlgebra
 {
+    private static readonly Dictionary<(SurrealNum, SurrealNum), SurrealNum> _mulCache = [];
     private static readonly Dictionary<(SurrealNum, SurrealNum), SurrealNum> _addCache = [];
     private static readonly Dictionary<(SurrealNum, SurrealNum), bool> _ltCache = [];
+    private static readonly Dictionary<SurrealNum, SurrealNum> _invertCache = [];
     private static readonly Dictionary<SurrealNum, SurrealNum> _negateCache = [];
 
     public static bool IsLessThanOrEquals(this SurrealNum x, SurrealNum y)
@@ -34,6 +36,28 @@ public static class SurrealNumberBasicAlgebra
         return _addCache[(x, y)] = SurrealNumberFabric.New(
             new SetGenerator(new EnumerableGenerator(leftSum)),
             new SetGenerator(new EnumerableGenerator(rightSum))
+        );
+    }
+
+    public static SurrealNum Mul(this SurrealNum x, SurrealNum y)
+    {
+        if (_mulCache.TryGetValue((x, y), out var result))
+            return result;
+
+
+        var left =
+            x.L.SelectMany(_ => y.L, (xl, yl) => xl * y + x * yl - xl * yl).Union(
+                x.R.SelectMany(_ => y.R, (xr, yr) => xr * y + x * yr - xr * yr)
+            );
+
+        var right =
+            x.L.SelectMany(_ => y.R, (xl, yr) => xl * y + x * yr - xl * yr).Union(
+                x.R.SelectMany(_ => y.L, (xr, yl) => xr * y + x * yl - xr * yl)
+            );
+
+        return _mulCache[(x, y)] = SurrealNumberFabric.New(
+            new SetGenerator(new EnumerableGenerator(left)),
+            new SetGenerator(new EnumerableGenerator(right))
         );
     }
 
