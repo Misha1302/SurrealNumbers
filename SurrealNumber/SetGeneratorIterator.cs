@@ -17,7 +17,7 @@ public class SetGeneratorIterator(ISetGenerator sourceGenerator) : IEnumerator<S
         currentGenerator = sourceGenerator.Clone();
     }
 
-    public SurrealNum Current { get; private set; } = null!;
+    public SurrealNum Current { get; private set; }
 
     object IEnumerator.Current => Current;
 

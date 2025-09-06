@@ -5,14 +5,18 @@ public static class SurrealNumberConverter
     public static string ConvertToString(this SurrealNum num) =>
         $$"""{{{num.L}}|{{num.R}}}""";
 
+    public static string ConvertToFullString(this SurrealNum num)
+    {
+        var a = num.L.Select(x => x.ConvertToFullString());
+        var b = num.R.Select(x => x.ConvertToFullString());
+        return $$"""{{{string.Join(",", a)}}|{{string.Join(",", b)}}}""";
+    }
+
     public static double ConvertToDouble(this SurrealNum num)
     {
-        var leftMax = num.L.Any() ? num.L.Max() : null;
-        var rightMin = num.R.Any() ? num.R.Min() : null;
-
-        if (leftMax == null && rightMin == null) return 0;
-        if (leftMax == null) return rightMin!.ConvertToDouble() - 1;
-        if (rightMin == null) return leftMax.ConvertToDouble() + 1;
+        if (!num.L.Any() && !num.R.Any()) return 0;
+        if (!num.L.Any()) return num.R.Min().ConvertToDouble() - 1;
+        if (!num.R.Any()) return num.L.Max().ConvertToDouble() + 1;
 
         return (num.L.Sum(ConvertToDouble) + num.R.Sum(ConvertToDouble)) / 2;
     }

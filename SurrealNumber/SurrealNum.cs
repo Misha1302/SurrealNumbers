@@ -1,6 +1,6 @@
 ﻿namespace SurrealNumber;
 
-public class SurrealNum : IComparable<SurrealNum>
+public readonly struct SurrealNum : IComparable<SurrealNum>, IEquatable<SurrealNum>
 {
     private SurrealNum(SetGenerator l, SetGenerator r)
     {
@@ -13,23 +13,11 @@ public class SurrealNum : IComparable<SurrealNum>
     public SetGenerator L { get; }
     public SetGenerator R { get; }
 
-    public int CompareTo(SurrealNum? other)
-    {
-        Thrower.Assert(other is not null);
-        return this <= other ? -1 : this == other ? 0 : 1;
-    }
 
     public static SurrealNum CreateInternal(SetGenerator l, SetGenerator r) => new(l, r);
 
     public override string ToString() => this.ConvertToString();
 
-    public override bool Equals(object? obj)
-    {
-        if (obj is null) return false;
-        if (ReferenceEquals(this, obj)) return true;
-        if (obj.GetType() != GetType()) return false;
-        return this == (SurrealNum)obj;
-    }
 
     public override int GetHashCode() => SurrealNumberHashCode.GetHash(L, R);
 
@@ -38,13 +26,7 @@ public class SurrealNum : IComparable<SurrealNum>
 
     public static bool operator >=(SurrealNum a, SurrealNum b) => b <= a;
 
-    public static bool operator ==(SurrealNum? a, SurrealNum? b)
-    {
-        if (a is null && b is null) return true;
-        if (a is null) return false;
-        if (b is null) return false;
-        return a <= b && b <= a;
-    }
+    public static bool operator ==(SurrealNum a, SurrealNum b) => a <= b && b <= a;
 
     public static bool operator !=(SurrealNum a, SurrealNum b) => !(a == b);
 
@@ -53,4 +35,10 @@ public class SurrealNum : IComparable<SurrealNum>
     public static bool operator >(SurrealNum a, SurrealNum b) => !(a <= b);
 
     public static SurrealNum operator +(SurrealNum a, SurrealNum b) => a.Add(b);
+
+    public bool Equals(SurrealNum other) => L.Equals(other.L) && R.Equals(other.R);
+
+    public override bool Equals(object? obj) => obj is SurrealNum other && Equals(other);
+
+    public int CompareTo(SurrealNum other) => this <= other ? -1 : this == other ? 0 : 1;
 }

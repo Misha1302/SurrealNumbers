@@ -4,7 +4,7 @@ public static class SurrealNumberBasicAlgebra
 {
     public static bool IsLessThanOrEquals(this SurrealNum x, SurrealNum y)
     {
-        var a = !x.L.Any(y.IsLessThanOrEquals);
+        var a = !x.L.Any(xl => y.IsLessThanOrEquals(xl));
         var b = !y.R.Any(yr => yr.IsLessThanOrEquals(x));
         return a && b;
     }

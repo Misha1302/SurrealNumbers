@@ -7,8 +7,10 @@ public class EnumerableGenerator(IEnumerable<SurrealNum> enumerable) : ISetGener
     public (bool, SurrealNum) TryGetNext()
     {
         var moveNext = _enumerator.MoveNext();
-        return (moveNext, moveNext ? _enumerator.Current : null!);
+        return (moveNext, moveNext ? _enumerator.Current : default);
     }
 
     public ISetGenerator Clone() => new EnumerableGenerator(enumerable);
+
+    public int Count() => enumerable.Count();
 }

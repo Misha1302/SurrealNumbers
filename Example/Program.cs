@@ -12,4 +12,4 @@ foreach (var b in arr)
 
 var acc = zero;
 for (var i = 0; i <= 5; i++)
-    Console.WriteLine($"{i}: {(acc += one).To<string>()}");
+    Console.WriteLine($"{i + 1}: {(acc += one).ConvertToFullString()}");
