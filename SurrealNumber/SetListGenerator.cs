@@ -1,6 +1,6 @@
 namespace SurrealNumber;
 
-public class SetListGenerator(List<SurrealNum> surreals) : ISetGenerator
+public struct SetListGenerator(IList<SurrealNum> surreals) : ISetGenerator
 {
     private int _index;
 

@@ -1,6 +1,6 @@
 namespace SurrealNumber;
 
-public class EnumerableGenerator(IEnumerable<SurrealNum> enumerable) : ISetGenerator
+public readonly struct EnumerableGenerator(IEnumerable<SurrealNum> enumerable) : ISetGenerator
 {
     private readonly IEnumerator<SurrealNum> _enumerator = enumerable.GetEnumerator();
 

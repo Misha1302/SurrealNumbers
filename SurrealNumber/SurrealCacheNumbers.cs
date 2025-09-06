@@ -19,10 +19,3 @@ public static class SurrealCacheNumbers
         new SetGenerator(new SetListGenerator([Zero]))
     );
 }
-
-
-
-public class SurrealCache
-{
-    
-}
