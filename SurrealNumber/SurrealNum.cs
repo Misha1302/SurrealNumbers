@@ -35,6 +35,7 @@ public readonly struct SurrealNum : IComparable<SurrealNum>, IEquatable<SurrealN
     public static bool operator >(SurrealNum a, SurrealNum b) => !(a <= b);
 
     public static SurrealNum operator +(SurrealNum a, SurrealNum b) => a.Add(b);
+    public static SurrealNum operator -(SurrealNum a) => a.Negate();
 
     public bool Equals(SurrealNum other) => L.Equals(other.L) && R.Equals(other.R);
 
