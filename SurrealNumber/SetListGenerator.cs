@@ -9,5 +9,5 @@ public class SetListGenerator(List<SurrealNum> surreals) : ISetGenerator
 
     public ISetGenerator Clone() => new SetListGenerator([..surreals]);
 
-    public int Count() => surreals.Count;
+    public int GetCount() => surreals.Count;
 }

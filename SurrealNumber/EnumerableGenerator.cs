@@ -12,5 +12,5 @@ public class EnumerableGenerator(IEnumerable<SurrealNum> enumerable) : ISetGener
 
     public ISetGenerator Clone() => new EnumerableGenerator(enumerable);
 
-    public int Count() => enumerable.Count();
+    public int GetCount() => enumerable.Count();
 }

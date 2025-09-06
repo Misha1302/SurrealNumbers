@@ -10,8 +10,8 @@ public readonly struct SurrealNum : IComparable<SurrealNum>, IEquatable<SurrealN
         Thrower.Assert(this.IsCorrect());
     }
 
-    public SetGenerator L { get; }
-    public SetGenerator R { get; }
+    public readonly SetGenerator L;
+    public readonly SetGenerator R;
 
 
     public static SurrealNum CreateInternal(SetGenerator l, SetGenerator r) => new(l, r);

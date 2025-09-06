@@ -2,6 +2,8 @@ namespace SurrealNumber;
 
 public static class SurrealNumberConverter
 {
+    private static readonly Dictionary<SurrealNum, double> _doubleCache = [];
+
     public static string ConvertToString(this SurrealNum num) =>
         $$"""{{{num.L}}|{{num.R}}}""";
 
@@ -14,11 +16,14 @@ public static class SurrealNumberConverter
 
     public static double ConvertToDouble(this SurrealNum num)
     {
-        if (!num.L.Any() && !num.R.Any()) return 0;
-        if (!num.L.Any()) return num.R.Min().ConvertToDouble() - 1;
-        if (!num.R.Any()) return num.L.Max().ConvertToDouble() + 1;
+        if (_doubleCache.TryGetValue(num, out var result))
+            return result;
 
-        return (num.L.Sum(ConvertToDouble) + num.R.Sum(ConvertToDouble)) / 2;
+        if (!num.L.Any() && !num.R.Any()) return 0;
+        if (!num.L.Any()) return _doubleCache[num] = num.R.Min().ConvertToDouble() - 1;
+        if (!num.R.Any()) return _doubleCache[num] = num.L.Max().ConvertToDouble() + 1;
+
+        return _doubleCache[num] = (num.L.Sum(ConvertToDouble) + num.R.Sum(ConvertToDouble)) / 2;
     }
 
     public static T To<T>(this SurrealNum num)

@@ -9,10 +9,10 @@ public static class SurrealNumberFabric
         var num = SurrealNum.CreateInternal(l, r).To<double>();
 
         var surrealNum =
-            l.Count() <= SafetySizeLimit && r.Count() <= SafetySizeLimit &&
-            SurrealNumberCache.Cache.TryGetValue(num, out var value)
+            l.GetCount() <= SafetySizeLimit && r.GetCount() <= SafetySizeLimit &&
+            SurrealCacheNumbers.Cache.TryGetValue(num, out var value)
                 ? value
-                : SurrealNumberCache.Cache[num] = SurrealNum.CreateInternal(l, r);
+                : SurrealCacheNumbers.Cache[num] = SurrealNum.CreateInternal(l, r);
 
         return surrealNum;
     }

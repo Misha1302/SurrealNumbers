@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example", "Example\Example.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SurrealNumber", "SurrealNumber\SurrealNumber.csproj", "{03AA0F41-3351-4FC7-87C1-8A71D9EE72FA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SurrealArithmeticTests", "SurrealArithmeticTests\SurrealArithmeticTests.csproj", "{200F75EE-306A-4457-BC1F-B2BFE96393C6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{03AA0F41-3351-4FC7-87C1-8A71D9EE72FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{03AA0F41-3351-4FC7-87C1-8A71D9EE72FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{03AA0F41-3351-4FC7-87C1-8A71D9EE72FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{200F75EE-306A-4457-BC1F-B2BFE96393C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{200F75EE-306A-4457-BC1F-B2BFE96393C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{200F75EE-306A-4457-BC1F-B2BFE96393C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{200F75EE-306A-4457-BC1F-B2BFE96393C6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

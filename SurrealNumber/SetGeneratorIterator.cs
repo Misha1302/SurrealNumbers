@@ -2,18 +2,25 @@ using System.Collections;
 
 namespace SurrealNumber;
 
-public class SetGeneratorIterator(ISetGenerator sourceGenerator) : IEnumerator<SurrealNum>
+public struct SetGeneratorIterator(ISetGenerator sourceGenerator) : IEnumerator<SurrealNum>
 {
+    private const int SafetySizeLimit = 1000;
+
+    private int _movedCount;
+
     private ISetGenerator currentGenerator = sourceGenerator.Clone();
 
     public bool MoveNext()
     {
+        Thrower.Assert(++_movedCount <= SafetySizeLimit);
+
         (var success, Current) = currentGenerator.TryGetNext();
         return success;
     }
 
     public void Reset()
     {
+        _movedCount = 0;
         currentGenerator = sourceGenerator.Clone();
     }
 
@@ -23,6 +30,5 @@ public class SetGeneratorIterator(ISetGenerator sourceGenerator) : IEnumerator<S
 
     public void Dispose()
     {
-        GC.SuppressFinalize(this);
     }
 }

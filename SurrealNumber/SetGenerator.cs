@@ -10,5 +10,5 @@ public class SetGenerator(ISetGenerator generator) : IEnumerable<SurrealNum>
 
     public override string ToString() => string.Join(", ", this.Select(x => x.To<double>()));
 
-    public int Count() => generator.Count();
+    public int GetCount() => generator.GetCount();
 }

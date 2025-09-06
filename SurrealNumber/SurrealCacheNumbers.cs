@@ -1,6 +1,6 @@
 namespace SurrealNumber;
 
-public static class SurrealNumberCache
+public static class SurrealCacheNumbers
 {
     public static readonly Dictionary<double, SurrealNum> Cache = new();
 
@@ -18,4 +18,11 @@ public static class SurrealNumberCache
         new SetGenerator(new SetListGenerator([])),
         new SetGenerator(new SetListGenerator([Zero]))
     );
+}
+
+
+
+public class SurrealCache
+{
+    
 }
