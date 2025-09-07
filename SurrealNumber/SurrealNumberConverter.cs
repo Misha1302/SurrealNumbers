@@ -37,5 +37,6 @@ public static class SurrealNumberConverter
         return Thrower.InvalidOpEx<T>();
     }
 
-    private static long ToLong(this double value) => (long)(value + 0.1 * Math.Sign(value));
+    public static long ToLong(this double value) => (long)(value + 0.1 * Math.Sign(value));
+    public static bool IsInteger(this double value) => Math.Abs(value - value.ToLong()) < 0.00001;
 }

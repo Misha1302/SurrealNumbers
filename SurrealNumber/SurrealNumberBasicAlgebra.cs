@@ -6,8 +6,8 @@ public static class SurrealNumberBasicAlgebra
 {
     private static readonly Dictionary<(SurrealNum, SurrealNum), SurrealNum> _mulCache = [];
     private static readonly Dictionary<(SurrealNum, SurrealNum), SurrealNum> _addCache = [];
-    private static readonly Dictionary<SurrealNum, SurrealNum> _reciprocalCache = [];
     private static readonly Dictionary<(SurrealNum, SurrealNum), bool> _ltCache = [];
+    private static readonly Dictionary<(SurrealNum, int), SurrealNum> _reciprocalCache = [];
     private static readonly Dictionary<SurrealNum, SurrealNum> _negateCache = [];
 
     public static bool IsLessThanOrEquals(this SurrealNum x, SurrealNum y)
@@ -28,7 +28,7 @@ public static class SurrealNumberBasicAlgebra
 
 
         var leftSum = (IEnumerable<SurrealNum>) [];
-        leftSum = x.L.Aggregate(leftSum, (current, xl) => current.Union([xl.Add(y)]));
+        leftSum = x.L.Aggregate(leftSum, (current, num) => current.Union([num.Add(y)]));
         leftSum = y.L.Aggregate(leftSum, (current, yl) => current.Union([x.Add(yl)]));
 
 
@@ -78,73 +78,23 @@ public static class SurrealNumberBasicAlgebra
         );
     }
 
-    public static SurrealNum Reciprocal(this SurrealNum x)
+    public static SurrealNum Reciprocal(this SurrealNum x, int iterations = 3)
     {
-        if (x == Zero) throw new DivideByZeroException("Cannot take reciprocal of zero.");
-        if (x < Zero) return -Reciprocal(-x);
-
-        if (_reciprocalCache.TryGetValue(x, out var result))
+        if (_reciprocalCache.TryGetValue((x, iterations), out var result))
             return result;
 
-        var leftSet = new HashSet<SurrealNum>();
-        var rightSet = new HashSet<SurrealNum>();
+        var guess = One;
+        while (x * guess > One) guess = guess.Half();
 
-        leftSet.Add(Zero);
-
-        bool changed;
-        var cnt = 0;
-        do
+        var old = Zero;
+        for (var i = 0; i < iterations; i++)
         {
-            changed = false;
+            guess *= Two - x * guess;
+            if (old == guess) break;
+            old = guess;
+        }
 
-            foreach (var xR in x.R.Where(xr => xr != Zero))
-            {
-                var invXr = Reciprocal(xR);
-                foreach (var yL in leftSet.ToList())
-                {
-                    var term = (One + (xR - x) * yL) * invXr;
-                    if (leftSet.Add(term)) changed = true;
-                }
-            }
-
-            foreach (var xL in x.L.Where(xl => xl != Zero))
-            {
-                var invXl = Reciprocal(xL);
-                foreach (var yR in rightSet.ToList())
-                {
-                    var term = (One + (xL - x) * yR) * invXl;
-                    if (leftSet.Add(term)) changed = true;
-                }
-            }
-
-            foreach (var xL in x.L.Where(xl => xl != Zero))
-            {
-                var invXl = Reciprocal(xL);
-                foreach (var yL in leftSet.ToList())
-                {
-                    var term = (One + (xL - x) * yL) * invXl;
-                    if (rightSet.Add(term)) changed = true;
-                }
-            }
-
-            foreach (var xR in x.R.Where(xr => xr != Zero))
-            {
-                var invXr = Reciprocal(xR);
-                foreach (var yR in rightSet.ToList())
-                {
-                    var term = (One + (xR - x) * yR) * invXr;
-                    if (rightSet.Add(term)) changed = true;
-                }
-            }
-        } while (changed && ++cnt < 15);
-
-        var y = SurrealNumberFabric.New(
-            new SetGenerator(new SetListGenerator(leftSet.ToList())),
-            new SetGenerator(new SetListGenerator(rightSet.ToList()))
-        );
-
-        _reciprocalCache[x] = y;
-        return y;
+        return _reciprocalCache[(x, iterations)] = guess;
     }
 
     public static SurrealNum Middle(SurrealNum x, SurrealNum y)
