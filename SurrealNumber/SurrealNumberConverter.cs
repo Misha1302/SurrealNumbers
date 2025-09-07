@@ -23,7 +23,7 @@ public static class SurrealNumberConverter
         if (!num.L.Any()) return _doubleCache[num] = num.R.Min().ConvertToDouble() - 1;
         if (!num.R.Any()) return _doubleCache[num] = num.L.Max().ConvertToDouble() + 1;
 
-        return _doubleCache[num] = (num.L.Sum(ConvertToDouble) + num.R.Sum(ConvertToDouble)) / 2;
+        return _doubleCache[num] = (num.L.Max(ConvertToDouble) + num.R.Min(ConvertToDouble)) / 2;
     }
 
     public static T To<T>(this SurrealNum num)

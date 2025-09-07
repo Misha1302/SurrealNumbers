@@ -9,5 +9,5 @@ public struct SetListGenerator(IList<SurrealNum> surreals) : ISetGenerator
 
     public ISetGenerator Clone() => new SetListGenerator([..surreals]);
 
-    public int GetCount() => surreals.Count;
+    public int GetCount(int limit) => Math.Min(limit, surreals.Count);
 }

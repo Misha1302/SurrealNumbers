@@ -18,7 +18,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\SurrealNumber\SurrealNumber.csproj" />
+        <ProjectReference Include="..\SurrealNumber\SurrealNumber.csproj"/>
     </ItemGroup>
 
 </Project>

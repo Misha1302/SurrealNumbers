@@ -36,6 +36,7 @@ public readonly struct SurrealNum : IComparable<SurrealNum>, IEquatable<SurrealN
 
     public static bool operator >(SurrealNum a, SurrealNum b) => !(a <= b);
 
+    public static SurrealNum operator /(SurrealNum a, SurrealNum b) => a * b.Reciprocal();
     public static SurrealNum operator *(SurrealNum a, SurrealNum b) => a.Mul(b);
     public static SurrealNum operator +(SurrealNum a, SurrealNum b) => a.Add(b);
     public static SurrealNum operator -(SurrealNum a, SurrealNum b) => a + -b;
@@ -45,5 +46,5 @@ public readonly struct SurrealNum : IComparable<SurrealNum>, IEquatable<SurrealN
 
     public override bool Equals(object? obj) => obj is SurrealNum other && Equals(other);
 
-    public int CompareTo(SurrealNum other) => this <= other ? -1 : this == other ? 0 : 1;
+    public int CompareTo(SurrealNum other) => this < other ? -1 : this == other ? 0 : 1;
 }

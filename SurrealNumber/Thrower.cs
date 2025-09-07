@@ -16,4 +16,7 @@ public static class Thrower
 
     [MethodImpl(MethodImplOptions.NoInlining)] [DoesNotReturn]
     public static T InvalidOpEx<T>() => throw new InvalidOperationException();
+
+    [MethodImpl(MethodImplOptions.NoInlining)] [DoesNotReturn]
+    public static void DivByZero() => throw new DivideByZeroException();
 }

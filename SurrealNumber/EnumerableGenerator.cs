@@ -12,5 +12,16 @@ public readonly struct EnumerableGenerator(IEnumerable<SurrealNum> enumerable) :
 
     public ISetGenerator Clone() => new EnumerableGenerator(enumerable);
 
-    public int GetCount() => enumerable.Count();
+    public int GetCount(int limit)
+    {
+        var cnt = 0;
+
+        foreach (var _ in enumerable)
+        {
+            cnt++;
+            if (cnt >= limit) break;
+        }
+
+        return cnt;
+    }
 }
