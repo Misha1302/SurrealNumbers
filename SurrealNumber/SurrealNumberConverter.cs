@@ -9,8 +9,8 @@ public static class SurrealNumberConverter
 
     public static string ConvertToFullString(this SurrealNum num)
     {
-        var a = num.L.Select(x => x.ConvertToFullString());
-        var b = num.R.Select(x => x.ConvertToFullString());
+        var a = num.L.Any() ? num.L.Num().ConvertToFullString() : "";
+        var b = num.R.Any() ? num.R.Min().ConvertToFullString() : "";
         return $$"""{{{string.Join(",", a)}}|{{string.Join(",", b)}}}""";
     }
 
@@ -21,9 +21,9 @@ public static class SurrealNumberConverter
 
         if (!num.L.Any() && !num.R.Any()) return 0;
         if (!num.L.Any()) return _doubleCache[num] = num.R.Min().ConvertToDouble() - 1;
-        if (!num.R.Any()) return _doubleCache[num] = num.L.Max().ConvertToDouble() + 1;
+        if (!num.R.Any()) return _doubleCache[num] = num.L.Num().ConvertToDouble() + 1;
 
-        return _doubleCache[num] = (num.L.Max(ConvertToDouble) + num.R.Min(ConvertToDouble)) / 2;
+        return _doubleCache[num] = (num.L.Num().ConvertToDouble() + num.R.Min().ConvertToDouble()) / 2;
     }
 
     public static T To<T>(this SurrealNum num)

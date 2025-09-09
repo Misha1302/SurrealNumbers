@@ -4,7 +4,7 @@ namespace SurrealNumber;
 
 public readonly struct SurrealNum : IComparable<SurrealNum>, IEquatable<SurrealNum>
 {
-    private SurrealNum(SetGenerator l, SetGenerator r)
+    private SurrealNum(LeftSetGenerator l, RightSetGenerator r)
     {
         L = l;
         R = r;
@@ -12,11 +12,11 @@ public readonly struct SurrealNum : IComparable<SurrealNum>, IEquatable<SurrealN
         Thrower.Assert(this.IsCorrect());
     }
 
-    public readonly SetGenerator L;
-    public readonly SetGenerator R;
+    public readonly LeftSetGenerator L;
+    public readonly RightSetGenerator R;
 
 
-    public static SurrealNum CreateInternal(SetGenerator l, SetGenerator r) => new(l, r);
+    public static SurrealNum CreateInternal(LeftSetGenerator l, RightSetGenerator r) => new(l, r);
 
     public override string ToString() => this.ConvertToDouble().ToString(CultureInfo.InvariantCulture);
 

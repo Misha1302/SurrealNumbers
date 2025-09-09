@@ -37,8 +37,8 @@ public static class SurrealNumberBasicAlgebra
         rightSum = y.R.Aggregate(rightSum, (current, yr) => current.Union([x.Add(yr)]));
 
         return _addCache[(x, y)] = SurrealNumberFabric.New(
-            new SetGenerator(new EnumerableGenerator(leftSum)),
-            new SetGenerator(new EnumerableGenerator(rightSum))
+            new LeftSetGenerator(new EnumerableGenerator(leftSum)),
+            new RightSetGenerator(new EnumerableGenerator(rightSum))
         );
     }
 
@@ -51,8 +51,8 @@ public static class SurrealNumberBasicAlgebra
         var right = x.L.Select(a => -a);
 
         return _negateCache[x] = SurrealNumberFabric.New(
-            new SetGenerator(new EnumerableGenerator(left)),
-            new SetGenerator(new EnumerableGenerator(right))
+            new LeftSetGenerator(new EnumerableGenerator(left)),
+            new RightSetGenerator(new EnumerableGenerator(right))
         );
     }
 
@@ -73,8 +73,8 @@ public static class SurrealNumberBasicAlgebra
         );
 
         return _mulCache[(x, y)] = SurrealNumberFabric.New(
-            new SetGenerator(new EnumerableGenerator(left)),
-            new SetGenerator(new EnumerableGenerator(right))
+            new LeftSetGenerator(new EnumerableGenerator(left)),
+            new RightSetGenerator(new EnumerableGenerator(right))
         );
     }
 
