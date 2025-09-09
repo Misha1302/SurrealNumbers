@@ -25,6 +25,12 @@ public abstract class SetGenerator(ISetGenerator generator) : IEnumerable<Surrea
 
     public override string ToString() => string.Join(", ", this);
 
+
+    public bool AllIntegers()
+    {
+        return this.All(a => a.ConvertToDouble().IsInteger());
+    }
+
     private class SetEnumerable(ISetGenerator generator) : IEnumerable<SurrealNum>
     {
         public IEnumerator<SurrealNum> GetEnumerator() =>

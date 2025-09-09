@@ -36,6 +36,7 @@ public static class SurrealNumberBasicAlgebra
         rightSum = x.R.Aggregate(rightSum, (current, xr) => current.Union([xr.Add(y)]));
         rightSum = y.R.Aggregate(rightSum, (current, yr) => current.Union([x.Add(yr)]));
 
+
         return _addCache[(x, y)] = SurrealNumberFabric.New(
             new LeftSetGenerator(new EnumerableGenerator(leftSum)),
             new RightSetGenerator(new EnumerableGenerator(rightSum))
@@ -83,18 +84,29 @@ public static class SurrealNumberBasicAlgebra
         if (_reciprocalCache.TryGetValue((x, iterations), out var result))
             return result;
 
-        var guess = One;
-        while (x * guess > One) guess = guess.Half();
+        return _reciprocalCache[(x, iterations)] = SurrealNumberFabric.New(
+            new LeftSetGenerator(new EnumerableGenerator(ReciprocalEnumerator(x))),
+            new RightSetGenerator(new SetListGenerator([]))
+        );
 
-        var old = Zero;
-        for (var i = 0; i < iterations; i++)
+        static IEnumerable<SurrealNum> ReciprocalEnumerator(SurrealNum x)
         {
-            guess *= Two - x * guess;
-            if (old == guess) break;
-            old = guess;
-        }
+            var guess = One;
+            while (x * guess > One) guess = guess.Half();
 
-        return _reciprocalCache[(x, iterations)] = guess;
+            var old = Zero;
+            // TODO: add support of infinity numbers
+            var i = 0;
+            while (i++ < 3)
+            {
+                guess *= Two - x * guess;
+
+                yield return guess;
+
+                if (old == guess) break;
+                old = guess;
+            }
+        }
     }
 
     public static SurrealNum Middle(SurrealNum x, SurrealNum y)

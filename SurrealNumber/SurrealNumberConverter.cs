@@ -20,10 +20,13 @@ public static class SurrealNumberConverter
             return result;
 
         if (!num.L.Any() && !num.R.Any()) return 0;
-        if (!num.L.Any()) return _doubleCache[num] = num.R.Min().ConvertToDouble() - 1;
-        if (!num.R.Any()) return _doubleCache[num] = num.L.Num().ConvertToDouble() + 1;
 
-        return _doubleCache[num] = (num.L.Num().ConvertToDouble() + num.R.Min().ConvertToDouble()) / 2;
+        if (!num.L.Any())
+            return _doubleCache[num] = num.R.Num().ConvertToDouble() - (num.R.AllIntegers() ? 1 : 0);
+        if (!num.R.Any())
+            return _doubleCache[num] = num.L.Num().ConvertToDouble() + (num.L.AllIntegers() ? 1 : 0);
+
+        return _doubleCache[num] = (num.L.Num().ConvertToDouble() + num.R.Num().ConvertToDouble()) / 2;
     }
 
     public static T To<T>(this SurrealNum num)

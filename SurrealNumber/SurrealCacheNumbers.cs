@@ -27,4 +27,12 @@ public static class SurrealCacheNumbers
     public static readonly SurrealNum Two = One + One;
 
     public static readonly SurrealNum Three = Two + One;
+
+    static SurrealCacheNumbers()
+    {
+        var acc = Zero;
+        for (var i = 0; i < 1000; i++) acc += One;
+        acc = Zero;
+        for (var i = 0; i < 1000; i++) acc -= One;
+    }
 }
