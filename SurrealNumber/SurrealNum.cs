@@ -1,7 +1,9 @@
-﻿using System.Globalization;
+﻿using System.Diagnostics;
+using System.Globalization;
 
 namespace SurrealNumber;
 
+[DebuggerDisplay("{ToDebugString(),nq}")]
 public readonly struct SurrealNum : IComparable<SurrealNum>, IEquatable<SurrealNum>
 {
     private SurrealNum(LeftSetGenerator l, RightSetGenerator r)
@@ -20,6 +22,17 @@ public readonly struct SurrealNum : IComparable<SurrealNum>, IEquatable<SurrealN
 
     public override string ToString() => this.ConvertToDouble().ToString(CultureInfo.InvariantCulture);
 
+    public string ToDebugString()
+    {
+        try
+        {
+            return ToString();
+        }
+        catch (Exception e)
+        {
+            return $"Exception {e.Message}";
+        }
+    }
 
     public override int GetHashCode() => SurrealNumberHashCode.GetHash(L, R);
 

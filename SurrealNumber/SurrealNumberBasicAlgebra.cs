@@ -7,7 +7,7 @@ public static class SurrealNumberBasicAlgebra
     private static readonly Dictionary<(SurrealNum, SurrealNum), SurrealNum> _mulCache = [];
     private static readonly Dictionary<(SurrealNum, SurrealNum), SurrealNum> _addCache = [];
     private static readonly Dictionary<(SurrealNum, SurrealNum), bool> _ltCache = [];
-    private static readonly Dictionary<(SurrealNum, int), SurrealNum> _reciprocalCache = [];
+    private static readonly Dictionary<SurrealNum, SurrealNum> _reciprocalCache = [];
     private static readonly Dictionary<SurrealNum, SurrealNum> _negateCache = [];
 
     public static bool IsLessThanOrEquals(this SurrealNum x, SurrealNum y)
@@ -30,12 +30,12 @@ public static class SurrealNumberBasicAlgebra
         var leftSum = (IEnumerable<SurrealNum>) [];
         leftSum = x.L.Aggregate(leftSum, (current, num) => current.Union([num.Add(y)]));
         leftSum = y.L.Aggregate(leftSum, (current, yl) => current.Union([x.Add(yl)]));
-
+        leftSum = leftSum.OrderBy(a => a);
 
         var rightSum = (IEnumerable<SurrealNum>) [];
         rightSum = x.R.Aggregate(rightSum, (current, xr) => current.Union([xr.Add(y)]));
         rightSum = y.R.Aggregate(rightSum, (current, yr) => current.Union([x.Add(yr)]));
-
+        rightSum = rightSum.OrderByDescending(a => a);
 
         return _addCache[(x, y)] = SurrealNumberFabric.New(
             new LeftSetGenerator(new EnumerableGenerator(leftSum)),
@@ -79,12 +79,12 @@ public static class SurrealNumberBasicAlgebra
         );
     }
 
-    public static SurrealNum Reciprocal(this SurrealNum x, int iterations = 3)
+    public static SurrealNum Reciprocal(this SurrealNum x)
     {
-        if (_reciprocalCache.TryGetValue((x, iterations), out var result))
+        if (_reciprocalCache.TryGetValue(x, out var result))
             return result;
 
-        return _reciprocalCache[(x, iterations)] = SurrealNumberFabric.New(
+        return _reciprocalCache[x] = SurrealNumberFabric.New(
             new LeftSetGenerator(new EnumerableGenerator(ReciprocalEnumerator(x))),
             new RightSetGenerator(new SetListGenerator([]))
         );
@@ -101,9 +101,10 @@ public static class SurrealNumberBasicAlgebra
             {
                 guess *= Two - x * guess;
 
+                if (old == guess) break;
+
                 yield return guess;
 
-                if (old == guess) break;
                 old = guess;
             }
         }

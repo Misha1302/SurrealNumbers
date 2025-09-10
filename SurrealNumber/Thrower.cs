@@ -6,17 +6,21 @@ namespace SurrealNumber;
 public static class Thrower
 {
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static void Assert([DoesNotReturnIf(false)] bool cond)
+    public static void Assert(
+        [DoesNotReturnIf(false)] bool cond,
+        [CallerArgumentExpression(nameof(cond))]
+        string message = ""
+    )
     {
-        if (!cond) InvalidOpEx();
+        if (!cond) InvalidOpEx(message);
     }
 
     [MethodImpl(MethodImplOptions.NoInlining)] [DoesNotReturn]
-    public static void InvalidOpEx() => throw new InvalidOperationException();
+    public static void InvalidOpEx(string message = "") => throw new InvalidOperationException(message);
 
     [MethodImpl(MethodImplOptions.NoInlining)] [DoesNotReturn]
-    public static T InvalidOpEx<T>() => throw new InvalidOperationException();
+    public static T InvalidOpEx<T>(string message = "") => throw new InvalidOperationException(message);
 
     [MethodImpl(MethodImplOptions.NoInlining)] [DoesNotReturn]
-    public static void DivByZero() => throw new DivideByZeroException();
+    public static void DivByZero(string message = "") => throw new DivideByZeroException(message);
 }
