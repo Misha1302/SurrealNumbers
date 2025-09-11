@@ -5,11 +5,13 @@ namespace SurrealNumber;
 
 public static class SurrealNumsCreator
 {
+    private const int SimplifyFastInternalLimit = 100;
     private static readonly Dictionary<SurrealNum, SurrealNum> _simplifiedCache = [];
     private static readonly Dictionary<int, List<SurrealNum>> _numbersCache = [];
 
     private static readonly List<SurrealNum> _positiveIntegersCache = [Zero];
     private static readonly List<SurrealNum> _negativeIntegersCache = [Zero];
+
 
     public static SurrealNum Simplify(this SurrealNum num)
     {
@@ -19,23 +21,27 @@ public static class SurrealNumsCreator
         if (num.IsInteger()) return _simplifiedCache[num] = num;
 
         var real = num.ConvertToDouble();
-        if (!double.IsFinite(real)) return num;
-        if (real.IsInteger()) return GetSimpleInteger(real.ToLong());
+        if (!double.IsFinite(real)) return _simplifiedCache[num] = num;
+        if (real.IsInteger()) return _simplifiedCache[num] = GetSimpleInteger(real.ToLong());
 
-        // TODO: remade to recursive O(log2) 
-        var top = int.Min(16, num.GetBirthday() + 1);
-        for (var birthday = 0; birthday <= top; birthday++)
-        {
-            var span = BinSearchViaBirthday(num, birthday, out var ind);
-            if (ind >= 0) return _simplifiedCache[num] = span[ind];
-        }
+        return _simplifiedCache[num] = SimplifyInternal(num, [MinusOne, Zero, One], 0);
+    }
 
-        var span2 = BinSearchViaBirthday(num, top, out var ind2);
-        ind2 = ~ind2;
-        if (ind2 >= 1)
-            return _simplifiedCache[num] = span2[ind2 - 1];
+    private static SurrealNum SimplifyInternal(SurrealNum num, List<SurrealNum> prev, int depth)
+    {
+        if (depth >= SimplifyFastInternalLimit) return prev[0];
+        var list = CreateNewBasedNumbers(prev);
 
-        return Thrower.InvalidOpEx<SurrealNum>($"Cannot find simple form for {num.ToString()}");
+        if (num < list[0]) return SimplifyInternal(num, [prev[0] - One, prev[0]], depth + 1);
+        if (num > list[^1]) return SimplifyInternal(num, [prev[^1], prev[^1] + One], depth + 1);
+
+        for (var i = 0; i < list.Count; i++)
+            if (list[i] == num)
+                return list[i];
+            else if (list[i] > num)
+                return SimplifyInternal(num, [list[i - 1], list[i]], depth + 1);
+
+        return Thrower.InvalidOpEx<SurrealNum>("Cannot find simplified number");
     }
 
     private static Span<SurrealNum> BinSearchViaBirthday(SurrealNum num, int birthday, out int ind)
@@ -75,14 +81,22 @@ public static class SurrealNumsCreator
 
         var prev = GenerateNumbersForBirthday(birthday - 1);
 
+        var res = CreateNewBasedNumbers(prev);
+
+        return _numbersCache[birthday] = res;
+    }
+
+    private static List<SurrealNum> CreateNewBasedNumbers(List<SurrealNum> prev)
+    {
         var res = (List<SurrealNum>) [];
 
-        res.Add(
-            SurrealNum.CreateInternal(
-                new LeftSetGenerator(new SetListGenerator([])),
-                new RightSetGenerator(new SetListGenerator([prev[0]]))
-            )
-        );
+        if (prev[0].IsInteger())
+            res.Add(
+                SurrealNum.CreateInternal(
+                    new LeftSetGenerator(new SetListGenerator([])),
+                    new RightSetGenerator(new SetListGenerator([prev[0]]))
+                )
+            );
 
         for (var i = 0; i < prev.Count - 1; i++)
         {
@@ -97,14 +111,15 @@ public static class SurrealNumsCreator
             );
         }
 
-        res.Add(prev[^1]);
-        res.Add(
-            SurrealNum.CreateInternal(
-                new LeftSetGenerator(new SetListGenerator([prev[^1]])),
-                new RightSetGenerator(new SetListGenerator([]))
-            )
-        );
 
-        return _numbersCache[birthday] = res;
+        res.Add(prev[^1]);
+        if (prev[^1].IsInteger())
+            res.Add(
+                SurrealNum.CreateInternal(
+                    new LeftSetGenerator(new SetListGenerator([prev[^1]])),
+                    new RightSetGenerator(new SetListGenerator([]))
+                )
+            );
+        return res;
     }
 }

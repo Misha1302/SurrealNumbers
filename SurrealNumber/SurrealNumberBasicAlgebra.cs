@@ -91,9 +91,11 @@ public static class SurrealNumberBasicAlgebra
         if (_reciprocalCache.TryGetValue(x, out var result))
             return result;
 
+        var generator = new EnumerableGenerator(ReciprocalEnumerator(x));
+
         return _reciprocalCache[x] = SurrealNumberFabric.New(
-            new LeftSetGenerator(new EnumerableGenerator(ReciprocalEnumerator(x))),
-            new RightSetGenerator(new SetListGenerator([]))
+            new LeftSetGenerator(generator),
+            new RightSetGenerator(generator)
         );
 
         static IEnumerable<SurrealNum> ReciprocalEnumerator(SurrealNum x)
