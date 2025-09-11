@@ -9,8 +9,7 @@ public class RightSetGenerator(ISetGenerator generator) : SetGenerator(generator
         if (_numCache.TryGetValue(limit, out var num))
             return num;
 
-        var e = TakeFirst(limit).ToArray();
-        Thrower.Assert(e.IsDecreasing(), "Collection must be decreasing");
-        return _numCache[limit] = e.Min();
+        Thrower.Assert(TakeFirst(limit).IsDecreasing(), "Collection must be decreasing");
+        return _numCache[limit] = Enumerable.Num(limit);
     }
 }

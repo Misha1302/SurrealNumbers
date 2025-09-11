@@ -12,7 +12,8 @@ public static class Thrower
         string message = ""
     )
     {
-        if (!cond) InvalidOpEx(message);
+        if (!cond)
+            InvalidOpEx(message);
     }
 
     [MethodImpl(MethodImplOptions.NoInlining)] [DoesNotReturn]

@@ -9,12 +9,13 @@ public struct SetGeneratorIterator(ISetGenerator sourceGenerator) : IEnumerator<
     private int _movedCount;
 
     private ISetGenerator currentGenerator = sourceGenerator.Clone();
+    private SurrealNum? _current = null;
 
     public bool MoveNext()
     {
         Thrower.Assert(++_movedCount <= SafetySizeLimit);
 
-        (var success, Current) = currentGenerator.TryGetNext();
+        (var success, _current) = currentGenerator.TryGetNext();
         return success;
     }
 
@@ -24,7 +25,7 @@ public struct SetGeneratorIterator(ISetGenerator sourceGenerator) : IEnumerator<
         currentGenerator = sourceGenerator.Clone();
     }
 
-    public SurrealNum Current { get; private set; }
+    public SurrealNum Current => _current ?? Thrower.InvalidOpEx<SurrealNum>();
 
     object IEnumerator.Current => Current;
 

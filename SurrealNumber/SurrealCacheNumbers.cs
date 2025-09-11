@@ -2,37 +2,42 @@ namespace SurrealNumber;
 
 public static class SurrealCacheNumbers
 {
-    public static readonly Dictionary<double, SurrealNum> Cache = new();
+    public static readonly Dictionary<(SetGenerator, SetGenerator), SurrealNum> Cache = new();
 
-    public static readonly SurrealNum Zero = SurrealNumberFabric.New(
+    public static readonly SurrealNum Zero = SurrealNum.CreateInternal(
         new LeftSetGenerator(new SetListGenerator([])),
         new RightSetGenerator(new SetListGenerator([]))
     );
 
-    public static readonly SurrealNum One = SurrealNumberFabric.New(
+    public static readonly SurrealNum One = SurrealNum.CreateInternal(
         new LeftSetGenerator(new SetListGenerator([Zero])),
         new RightSetGenerator(new SetListGenerator([]))
     );
 
-    public static readonly SurrealNum MinusOne = SurrealNumberFabric.New(
+    public static readonly SurrealNum MinusOne = SurrealNum.CreateInternal(
         new LeftSetGenerator(new SetListGenerator([])),
         new RightSetGenerator(new SetListGenerator([Zero]))
     );
 
-    public static readonly SurrealNum SurHalf = SurrealNumberFabric.New(
+    public static readonly SurrealNum SurHalf = SurrealNum.CreateInternal(
         new LeftSetGenerator(new SetListGenerator([Zero])),
         new RightSetGenerator(new SetListGenerator([One]))
     );
+    //
+    // public static readonly SurrealNum Two = One + One;
+    //
+    // public static readonly SurrealNum Three = Two + One;
+    //
+    // static SurrealCacheNumbers()
+    // {
+    //     var acc = Zero;
+    //     for (var i = 0; i < 1000; i++) acc += One;
+    //     acc = Zero;
+    //     for (var i = 0; i < 1000; i++) acc -= One;
+    // }
 
     public static readonly SurrealNum Two = One + One;
-
     public static readonly SurrealNum Three = Two + One;
-
-    static SurrealCacheNumbers()
-    {
-        var acc = Zero;
-        for (var i = 0; i < 1000; i++) acc += One;
-        acc = Zero;
-        for (var i = 0; i < 1000; i++) acc -= One;
-    }
+    public static readonly SurrealNum Four = Two + Two;
+    public static readonly SurrealNum Five = Four + One;
 }

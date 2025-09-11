@@ -4,35 +4,50 @@ namespace SurrealNumber;
 
 public abstract class SetGenerator(ISetGenerator generator) : IEnumerable<SurrealNum>
 {
-    private readonly SetEnumerable enumerable = new(generator);
+    protected readonly SetEnumerable Enumerable = new(generator);
+    private int _hashCode = -1;
 
     public IEnumerator<SurrealNum> GetEnumerator()
     {
-        if (enumerable.Any())
+        if (Enumerable.Any())
             yield return Num();
     }
 
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
     protected IEnumerable<SurrealNum> TakeFirst(int size) =>
-        enumerable.Take(Math.Min(size, enumerable.GetCount(size)));
+        Enumerable.Take(Math.Min(size, Enumerable.GetCount(size)));
 
     public int GetCount(int limit = int.MaxValue) =>
-        enumerable.GetCount(limit);
+        Enumerable.GetCount(limit);
 
 
     public abstract SurrealNum Num(int limit = int.MaxValue);
 
     public override string ToString() => string.Join(", ", this);
 
+    public override int GetHashCode()
+    {
+        // ReSharper disable NonReadonlyMemberInGetHashCode
+        if (_hashCode != -1) return _hashCode;
+        return _hashCode = this.Aggregate(0, HashCode.Combine);
+    }
+
+    public override bool Equals(object? obj) =>
+        obj is SetGenerator other && Enumerable == other.Enumerable;
+
 
     public bool AllIntegers()
     {
-        return this.All(a => a.ConvertToDouble().IsInteger());
+        return this.All(a => a.IsInteger());
     }
 
-    private class SetEnumerable(ISetGenerator generator) : IEnumerable<SurrealNum>
+    protected class SetEnumerable(ISetGenerator generator) : IEnumerable<SurrealNum>
     {
+        private readonly Dictionary<Guid, bool> _equalsCache = [];
+
+        public readonly Guid Id = Guid.NewGuid();
+
         public IEnumerator<SurrealNum> GetEnumerator() =>
             new SetGeneratorIterator(generator);
 
@@ -44,5 +59,25 @@ public abstract class SetGenerator(ISetGenerator generator) : IEnumerable<Surrea
 
         public int GetCount(int limit = int.MaxValue) =>
             generator.GetCount(limit);
+
+        public SurrealNum Num(int limit = int.MaxValue) =>
+            generator[int.Min(GetCount(limit) - 1, limit)];
+
+        public static bool operator ==(SetEnumerable left, SetEnumerable right) =>
+            left.Equals(right);
+
+        public static bool operator !=(SetEnumerable left, SetEnumerable right) => !(left == right);
+
+        public bool Equals(SetEnumerable other)
+        {
+            if (_equalsCache.TryGetValue(other.Id, out var result))
+                return result;
+            return _equalsCache[other.Id] = other.SequenceEqual(this);
+        }
+
+        public override bool Equals(object? obj) =>
+            obj is SetEnumerable setGenerator && Equals(setGenerator);
+
+        public override int GetHashCode() => this.Aggregate(0, HashCode.Combine);
     }
 }

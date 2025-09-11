@@ -4,8 +4,10 @@ public struct SetListGenerator(IList<SurrealNum> surreals) : ISetGenerator
 {
     private int _index;
 
-    public (bool, SurrealNum) TryGetNext() =>
-        (_index < surreals.Count, _index < surreals.Count ? surreals[_index++] : default);
+    public SurrealNum this[int index] => surreals[index];
+
+    public (bool, SurrealNum?) TryGetNext() =>
+        (_index < surreals.Count, _index < surreals.Count ? surreals[_index++] : null);
 
     public ISetGenerator Clone() => new SetListGenerator([..surreals]);
 

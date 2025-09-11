@@ -2,19 +2,19 @@ namespace SurrealNumber;
 
 public static class SurrealNumberFabric
 {
-    private const int SafetySizeLimit = 100;
-
     public static SurrealNum Create(LeftSetGenerator l, RightSetGenerator r)
     {
-        var num = SurrealNum.CreateInternal(l, r).To<double>();
+        if (!l.Any() && !r.Any()) return SurrealCacheNumbers.Zero;
 
-        var surrealNum = l.GetCount(SafetySizeLimit) < SafetySizeLimit &&
-                         r.GetCount(SafetySizeLimit) < SafetySizeLimit &&
-                         SurrealCacheNumbers.Cache.TryGetValue(num, out var value)
+        SetGenerator l2 = l, r2 = r;
+        if (l2.Equals(r2))
+            return l.Num();
+
+        var num = SurrealNum.CreateInternal(l, r).Simplify();
+
+        return SurrealCacheNumbers.Cache.TryGetValue((l, r), out var value)
             ? value
-            : SurrealCacheNumbers.Cache[num] = SurrealNum.CreateInternal(l, r);
-
-        return surrealNum;
+            : SurrealCacheNumbers.Cache[(l, r)] = num;
     }
 
     public static SurrealNum New(LeftSetGenerator l, RightSetGenerator r) => Create(l, r);

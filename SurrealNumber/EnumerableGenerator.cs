@@ -4,10 +4,12 @@ public readonly struct EnumerableGenerator(IEnumerable<SurrealNum> enumerable) :
 {
     private readonly IEnumerator<SurrealNum> _enumerator = enumerable.GetEnumerator();
 
-    public (bool, SurrealNum) TryGetNext()
+    public SurrealNum this[int index] => enumerable.ElementAt(int.Min(GetCount(index + 1) - 1, index));
+
+    public (bool, SurrealNum?) TryGetNext()
     {
         var moveNext = _enumerator.MoveNext();
-        return (moveNext, moveNext ? _enumerator.Current : default);
+        return (moveNext, moveNext ? _enumerator.Current : null);
     }
 
     public ISetGenerator Clone() => new EnumerableGenerator(enumerable);

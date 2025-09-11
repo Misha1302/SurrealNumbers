@@ -2,7 +2,8 @@ namespace SurrealNumber;
 
 public interface ISetGenerator
 {
-    public (bool, SurrealNum) TryGetNext();
+    public SurrealNum this[int index] { get; }
+    public (bool, SurrealNum?) TryGetNext();
     public ISetGenerator Clone();
     int GetCount(int limit);
 }

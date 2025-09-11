@@ -30,16 +30,18 @@ public static class SurrealNumberBasicAlgebra
         var leftSum = (IEnumerable<SurrealNum>) [];
         leftSum = x.L.Aggregate(leftSum, (current, num) => current.Union([num.Add(y)]));
         leftSum = y.L.Aggregate(leftSum, (current, yl) => current.Union([x.Add(yl)]));
-        leftSum = leftSum.OrderBy(a => a);
+        leftSum = leftSum.Order();
 
         var rightSum = (IEnumerable<SurrealNum>) [];
         rightSum = x.R.Aggregate(rightSum, (current, xr) => current.Union([xr.Add(y)]));
         rightSum = y.R.Aggregate(rightSum, (current, yr) => current.Union([x.Add(yr)]));
-        rightSum = rightSum.OrderByDescending(a => a);
+        rightSum = rightSum.OrderDescending();
 
+        var leftSetGenerator = new LeftSetGenerator(new EnumerableGenerator(leftSum));
+        var rightSetGenerator = new RightSetGenerator(new EnumerableGenerator(rightSum));
         return _addCache[(x, y)] = SurrealNumberFabric.New(
-            new LeftSetGenerator(new EnumerableGenerator(leftSum)),
-            new RightSetGenerator(new EnumerableGenerator(rightSum))
+            leftSetGenerator,
+            rightSetGenerator
         );
     }
 
@@ -48,8 +50,8 @@ public static class SurrealNumberBasicAlgebra
         if (_negateCache.TryGetValue(x, out var result))
             return result;
 
-        var left = x.R.Select(a => -a);
-        var right = x.L.Select(a => -a);
+        var left = x.R.Select(a => -a).Order();
+        var right = x.L.Select(a => -a).OrderDescending();
 
         return _negateCache[x] = SurrealNumberFabric.New(
             new LeftSetGenerator(new EnumerableGenerator(left)),
@@ -60,18 +62,23 @@ public static class SurrealNumberBasicAlgebra
 
     public static SurrealNum Mul(this SurrealNum x, SurrealNum y)
     {
+        if (x >= y) (x, y) = (y, x);
+
         if (_mulCache.TryGetValue((x, y), out var result))
             return result;
+
+        if (x.Sign() == -1) return _mulCache[(x, y)] = -Mul(-x, y);
+        if (y.Sign() == -1) return _mulCache[(x, y)] = -Mul(x, -y);
 
         var left = Union(
             x.L.SelectMany(_ => y.L, (xl, yl) => xl * y + x * yl - xl * yl),
             x.R.SelectMany(_ => y.R, (xr, yr) => xr * y + x * yr - xr * yr)
-        );
+        ).Order();
 
         var right = Union(
             x.L.SelectMany(_ => y.R, (xl, yr) => xl * y + x * yr - xl * yr),
             x.R.SelectMany(_ => y.L, (xr, yl) => x * yl + xr * y - xr * yl)
-        );
+        ).OrderDescending();
 
         return _mulCache[(x, y)] = SurrealNumberFabric.New(
             new LeftSetGenerator(new EnumerableGenerator(left)),
@@ -97,7 +104,7 @@ public static class SurrealNumberBasicAlgebra
             var old = Zero;
             // TODO: add support of infinity numbers
             var i = 0;
-            while (i++ < 3)
+            while (i++ < 2)
             {
                 guess *= Two - x * guess;
 
@@ -117,13 +124,16 @@ public static class SurrealNumberBasicAlgebra
     }
 
     public static SurrealNum Half(this SurrealNum x) =>
-        Middle(Min(x, Zero), Max(Zero, x));
+        Middle(Zero, x);
 
     public static SurrealNum Max(this SurrealNum x, SurrealNum y) =>
         x >= y ? x : y;
 
     public static SurrealNum Min(this SurrealNum x, SurrealNum y) =>
         x <= y ? x : y;
+
+    public static int Sign(this SurrealNum x) =>
+        x < Zero ? -1 : x > Zero ? 1 : 0;
 
     private static IEnumerable<T> Union<T>(params IEnumerable<T>[] enumerables)
     {
