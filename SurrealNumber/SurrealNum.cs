@@ -6,7 +6,7 @@ namespace SurrealNumber;
 [DebuggerDisplay("{ToDebugString(),nq}")]
 public struct SurrealNum : IComparable<SurrealNum>, IEquatable<SurrealNum>
 {
-    private bool? _isIntegerCache = null;
+    private int _isIntegerCache = -1;
 
     public readonly LeftSetGenerator L;
     public readonly RightSetGenerator R;
@@ -69,12 +69,12 @@ public struct SurrealNum : IComparable<SurrealNum>, IEquatable<SurrealNum>
 
     public bool IsInteger()
     {
-        if (_isIntegerCache != null)
-            return _isIntegerCache.Value;
+        if (_isIntegerCache != -1)
+            return _isIntegerCache == 1;
 
         var res = (!L.Any() && !R.Any())
                   || (!L.Any() && R.Num().IsInteger()) || (!R.Any() && L.Num().IsInteger());
-        _isIntegerCache = res;
+        _isIntegerCache = res ? 1 : 0;
         return res;
     }
 }

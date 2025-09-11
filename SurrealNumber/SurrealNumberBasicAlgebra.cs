@@ -106,7 +106,7 @@ public static class SurrealNumberBasicAlgebra
             var old = Zero;
             // TODO: add support of infinity numbers
             var i = 0;
-            while (i++ < 2)
+            while (i++ < 3)
             {
                 guess *= Two - x * guess;
 
