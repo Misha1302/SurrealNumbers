@@ -77,13 +77,7 @@ public abstract class SetGenerator(ISetGenerator generator) : IEnumerable<Surrea
             if (_equalsCache.TryGetValue(other.Id, out var result))
                 return result;
 
-            // TODO: remade to pseudo limit check
-            return _equalsCache[other.Id] = SurrealNumberComparer.Eq(this, other);
-            // other
-            //     .Take(SurrealNumbersLimitations.NumDefaultCount)
-            //     .SequenceEqual(this
-            //         .Take(SurrealNumbersLimitations.NumDefaultCount)
-            //     );
+            return _equalsCache[other.Id] = this.Eq(other);
         }
 
         public override bool Equals(object? obj) =>

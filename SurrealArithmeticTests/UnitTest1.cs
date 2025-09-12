@@ -113,4 +113,60 @@ public class Tests
 
         Assert.That(num.ConvertToDouble(), Is.EqualTo(5 * 5 * 5 * 3 / 2.0));
     }
+
+    [Test]
+    public void TestB3()
+    {
+        var lts = (bool[])
+        [
+            SurHalf * SurHalf * SurHalf < One,
+            SurHalf * Two <= One,
+            SurHalf * Two > SurHalf,
+            Two * Three * SurHalf <= Three,
+            Two * Three * SurHalf > Two + SurHalf,
+        ];
+
+        Assert.That(lts.All(x => x), Is.EqualTo(true));
+    }
+
+    [Test]
+    public void TestB4()
+    {
+        var lts = (bool[])
+        [
+            One + One == Two,
+            Five - Two == Three,
+            Three - Five == -Two,
+        ];
+
+        Assert.That(lts.All(x => x), Is.EqualTo(true));
+    }
+
+    [Test]
+    public void TestB5()
+    {
+        SurrealNumberVerifier.Implementation = new SurrealNumberVerifierStub();
+
+        var num = Five * Five * Five * Three / Two;
+
+        Assert.That(num.ConvertToDouble(), Is.EqualTo(5 * 5 * 5 * 3 / 2.0));
+    }
+
+    [Test]
+    public void TestB6()
+    {
+        var num = Five * Five * Five * Three / Two;
+
+        Assert.That(num.ConvertToFullString(), Is.EqualTo(
+            "{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}|}}"
+        ));
+    }
+
+    [Test]
+    public void TestB7()
+    {
+        var nums = (List<SurrealNum>) [Five, SurHalf, SurHalf * SurHalf];
+
+        Assert.That(nums.Select(x => x.GetBirthday()), Is.EqualTo((List<int>) [5, 2, 3]));
+    }
 }

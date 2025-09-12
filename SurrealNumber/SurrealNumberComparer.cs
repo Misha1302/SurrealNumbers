@@ -3,15 +3,11 @@ namespace SurrealNumber;
 public static class SurrealNumberComparer
 {
     private static readonly Dictionary<(SurrealNum, SurrealNum), bool> _ltCache = [];
-    private static readonly Dictionary<(SetGenerator.SetEnumerable, SetGenerator.SetEnumerable), bool> _eqCache = [];
 
-    public static bool Eq(SetGenerator.SetEnumerable a, SetGenerator.SetEnumerable b)
+    public static bool Eq(this SetGenerator.SetEnumerable a, SetGenerator.SetEnumerable b)
     {
         if (!a.Any() && !b.Any()) return true;
         if (a.Any() != b.Any()) return false;
-
-        if (_eqCache.TryGetValue((a, b), out var value))
-            return value;
 
         var x = a.Num(SurrealNumbersLimitations.NumDefaultCount);
         var y = b.Num(SurrealNumbersLimitations.NumDefaultCount);

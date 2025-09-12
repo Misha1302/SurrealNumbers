@@ -9,6 +9,8 @@ public static class SurrealNumberBasicAlgebra
     private static readonly Dictionary<SurrealNum, SurrealNum> _reciprocalCache = [];
     private static readonly Dictionary<SurrealNum, SurrealNum> _negateCache = [];
 
+    private static int i = 0;
+
     public static SurrealNum Add(this SurrealNum x, SurrealNum y)
     {
         if (_addCache.TryGetValue((x, y), out var result))
@@ -26,10 +28,12 @@ public static class SurrealNumberBasicAlgebra
 
         var leftSetGenerator = new LeftSetGenerator(new EnumerableGenerator(leftSum));
         var rightSetGenerator = new RightSetGenerator(new EnumerableGenerator(rightSum));
-        return _addCache[(x, y)] = SurrealNumberFabric.New(
+        var surrealNum = SurrealNumberFabric.New(
             leftSetGenerator,
             rightSetGenerator
         );
+
+        return _addCache[(x, y)] = surrealNum;
     }
 
     public static SurrealNum Negate(this SurrealNum x)
