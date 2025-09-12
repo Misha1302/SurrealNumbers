@@ -51,8 +51,6 @@ public static class SurrealNumberBasicAlgebra
 
     public static SurrealNum Mul(this SurrealNum x, SurrealNum y)
     {
-        if (x >= y) (x, y) = (y, x);
-
         if (_mulCache.TryGetValue((x, y), out var result))
             return result;
 

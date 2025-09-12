@@ -33,7 +33,7 @@ public abstract class SetGenerator(ISetGenerator generator) : IEnumerable<Surrea
     {
         // ReSharper disable NonReadonlyMemberInGetHashCode
         if (_hashCode != -1) return _hashCode;
-        return _hashCode = this.Aggregate(0, HashCode.Combine);
+        return _hashCode = this.Any() ? Num(SurrealNumbersLimitations.NumDefaultCount).GetHashCode() : 0;
     }
 
     public override bool Equals(object? obj) =>

@@ -6,7 +6,7 @@ SurrealNumberVerifier.Implementation = new SurrealNumberVerifierStub();
 
 var sw = Stopwatch.StartNew();
 
-var q = Five / Three;
+var q = -SurHalf / Three;
 Console.WriteLine(q);
 
 Console.WriteLine(sw.ElapsedMilliseconds);

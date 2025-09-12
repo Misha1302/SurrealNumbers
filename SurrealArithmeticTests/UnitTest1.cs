@@ -169,4 +169,22 @@ public class Tests
 
         Assert.That(nums.Select(x => x.GetBirthday()), Is.EqualTo((List<int>) [5, 2, 3]));
     }
+
+    [Test]
+    public void TestB8()
+    {
+        Assert.That((-Two * Five).ConvertToDouble(), Is.EqualTo(-10));
+    }
+
+    [Test]
+    public void TestB9()
+    {
+        Assert.That((-Two * Five * -SurHalf).ConvertToDouble(), Is.EqualTo(-2 * 5 * -0.5));
+    }
+
+    [Test]
+    public void TestC1()
+    {
+        Assert.That((-SurHalf / Three).ConvertToDouble().EqApprox(-0.5 / 3, 0.01), Is.EqualTo(true));
+    }
 }
