@@ -74,11 +74,11 @@
     <s:String
             x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AValueTuple_00602_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003F_002Econfig_003FJetBrains_003FRider2025_002E1_003Fresharper_002Dhost_003FDecompilerCache_003Fdecompiler_003F55c434b75f7a466fbabd019e2ecdbfafb2e200_003F92_003F8a8e7aa0_003FValueTuple_00602_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
     <s:String
-            x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=2fac06c8_002Dee6c_002D4cee_002Db2dc_002D82c6296943ec/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Test1" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+            x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=2fac06c8_002Dee6c_002D4cee_002Db2dc_002D82c6296943ec/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Test1" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;Solution /&gt;
 &lt;/SessionState&gt;</s:String>
     <s:String
-            x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=2fd3de24_002D28a6_002D44f2_002Da9b9_002D9537de995f9a/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Tests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+            x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=2fd3de24_002D28a6_002D44f2_002Da9b9_002D9537de995f9a/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Tests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;TestAncestor&gt;
     &lt;TestId&gt;NUnit3x::200F75EE-306A-4457-BC1F-B2BFE96393C6::net8.0::SurrealArithmeticTests.Tests&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
