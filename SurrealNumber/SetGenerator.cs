@@ -45,7 +45,7 @@ public abstract class SetGenerator(ISetGenerator generator) : IEnumerable<Surrea
         return this.All(a => a.IsInteger());
     }
 
-    protected class SetEnumerable(ISetGenerator generator) : IEnumerable<SurrealNum>
+    public class SetEnumerable(ISetGenerator generator) : IEnumerable<SurrealNum>
     {
         private readonly Dictionary<Guid, bool> _equalsCache = [];
 
@@ -63,6 +63,7 @@ public abstract class SetGenerator(ISetGenerator generator) : IEnumerable<Surrea
         public int GetCount(int limit) =>
             generator.GetCount(limit);
 
+
         public SurrealNum Num(int limit) =>
             generator[int.Min(GetCount(limit) - 1, limit)];
 
@@ -77,11 +78,12 @@ public abstract class SetGenerator(ISetGenerator generator) : IEnumerable<Surrea
                 return result;
 
             // TODO: remade to pseudo limit check
-            return _equalsCache[other.Id] = other
-                .Take(SurrealNumbersLimitations.NumDefaultCount)
-                .SequenceEqual(this
-                    .Take(SurrealNumbersLimitations.NumDefaultCount)
-                );
+            return _equalsCache[other.Id] = SurrealNumberComparer.Eq(this, other);
+            // other
+            //     .Take(SurrealNumbersLimitations.NumDefaultCount)
+            //     .SequenceEqual(this
+            //         .Take(SurrealNumbersLimitations.NumDefaultCount)
+            //     );
         }
 
         public override bool Equals(object? obj) =>

@@ -6,20 +6,8 @@ public static class SurrealNumberBasicAlgebra
 {
     private static readonly Dictionary<(SurrealNum, SurrealNum), SurrealNum> _mulCache = [];
     private static readonly Dictionary<(SurrealNum, SurrealNum), SurrealNum> _addCache = [];
-    private static readonly Dictionary<(SurrealNum, SurrealNum), bool> _ltCache = [];
     private static readonly Dictionary<SurrealNum, SurrealNum> _reciprocalCache = [];
     private static readonly Dictionary<SurrealNum, SurrealNum> _negateCache = [];
-
-    public static bool IsLessThanOrEquals(this SurrealNum x, SurrealNum y)
-    {
-        if (_ltCache.TryGetValue((x, y), out var result))
-            return result;
-
-        var a = !x.L.Any(xl => y <= xl);
-        var b = !y.R.Any(yr => yr <= x);
-
-        return _ltCache[(x, y)] = a && b;
-    }
 
     public static SurrealNum Add(this SurrealNum x, SurrealNum y)
     {
