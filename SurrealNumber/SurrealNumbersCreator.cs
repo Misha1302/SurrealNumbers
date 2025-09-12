@@ -1,4 +1,3 @@
-using System.Runtime.InteropServices;
 using static SurrealNumber.SurrealCacheNumbers;
 
 namespace SurrealNumber;
@@ -55,14 +54,6 @@ public static class SurrealNumsCreator
                 return SimplifyInternal(num, [list[i - 1], list[i]], depth + 1);
 
         return Thrower.InvalidOpEx<SurrealNum>("Cannot find simplified number");
-    }
-
-    private static Span<SurrealNum> BinSearchViaBirthday(SurrealNum num, int birthday, out int ind)
-    {
-        var nums = GenerateNumbersForBirthday(birthday);
-        var span = CollectionsMarshal.AsSpan(nums);
-        ind = span.BinarySearch(num);
-        return span;
     }
 
     private static SurrealNum GetSimpleInteger(long value)

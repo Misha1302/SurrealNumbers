@@ -49,7 +49,7 @@ public abstract class SetGenerator(ISetGenerator generator) : IEnumerable<Surrea
     {
         private readonly Dictionary<Guid, bool> _equalsCache = [];
 
-        public readonly Guid Id = Guid.NewGuid();
+        private readonly Guid _id = Guid.NewGuid();
 
         public IEnumerator<SurrealNum> GetEnumerator() =>
             new SetGeneratorIterator(generator);
@@ -74,10 +74,10 @@ public abstract class SetGenerator(ISetGenerator generator) : IEnumerable<Surrea
 
         public bool Equals(SetEnumerable other)
         {
-            if (_equalsCache.TryGetValue(other.Id, out var result))
+            if (_equalsCache.TryGetValue(other._id, out var result))
                 return result;
 
-            return _equalsCache[other.Id] = this.Eq(other);
+            return _equalsCache[other._id] = this.Eq(other);
         }
 
         public override bool Equals(object? obj) =>

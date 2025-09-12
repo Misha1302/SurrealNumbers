@@ -9,8 +9,6 @@ public static class SurrealNumberBasicAlgebra
     private static readonly Dictionary<SurrealNum, SurrealNum> _reciprocalCache = [];
     private static readonly Dictionary<SurrealNum, SurrealNum> _negateCache = [];
 
-    private static int i = 0;
-
     public static SurrealNum Add(this SurrealNum x, SurrealNum y)
     {
         if (_addCache.TryGetValue((x, y), out var result))
