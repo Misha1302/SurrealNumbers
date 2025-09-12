@@ -91,10 +91,26 @@ public class Tests
     }
 
     [Test]
-    public void Test10()
+    public void TestB0()
     {
         var num = Three * (Five / Three);
 
         Assert.That(Math.Abs(num.ConvertToDouble() - 5) < 0.01, Is.EqualTo(true));
+    }
+
+    [Test]
+    public void TestB1()
+    {
+        var num = Five * Five * Five * Three;
+
+        Assert.That(num.ConvertToDouble(), Is.EqualTo(5 * 5 * 5 * 3));
+    }
+
+    [Test]
+    public void TestB2()
+    {
+        var num = Five * Five * Five * Three / Two;
+
+        Assert.That(num.ConvertToDouble(), Is.EqualTo(5 * 5 * 5 * 3 / 2.0));
     }
 }

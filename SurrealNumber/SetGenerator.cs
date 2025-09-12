@@ -18,11 +18,14 @@ public abstract class SetGenerator(ISetGenerator generator) : IEnumerable<Surrea
     protected IEnumerable<SurrealNum> TakeFirst(int size) =>
         Enumerable.Take(Math.Min(size, Enumerable.GetCount(size)));
 
-    public int GetCount(int limit = int.MaxValue) =>
+    public int GetCount(int limit) =>
         Enumerable.GetCount(limit);
 
 
-    public abstract SurrealNum Num(int limit = int.MaxValue);
+    public SurrealNum Num(int limit = -1) =>
+        NumInternal(limit >= 0 ? limit : SurrealNumbersLimitations.NumDefaultCount);
+
+    protected abstract SurrealNum NumInternal(int limit);
 
     public override string ToString() => string.Join(", ", this);
 
@@ -57,10 +60,10 @@ public abstract class SetGenerator(ISetGenerator generator) : IEnumerable<Surrea
         public override string ToString() =>
             string.Join(", ", this.Select(x => x.To<double>()));
 
-        public int GetCount(int limit = int.MaxValue) =>
+        public int GetCount(int limit) =>
             generator.GetCount(limit);
 
-        public SurrealNum Num(int limit = int.MaxValue) =>
+        public SurrealNum Num(int limit) =>
             generator[int.Min(GetCount(limit) - 1, limit)];
 
         public static bool operator ==(SetEnumerable left, SetEnumerable right) =>
@@ -72,7 +75,7 @@ public abstract class SetGenerator(ISetGenerator generator) : IEnumerable<Surrea
         {
             if (_equalsCache.TryGetValue(other.Id, out var result))
                 return result;
-            return _equalsCache[other.Id] = other.SequenceEqual(this);
+            return _equalsCache[other.Id] = other.Take(1).SequenceEqual(this.Take(1));
         }
 
         public override bool Equals(object? obj) =>

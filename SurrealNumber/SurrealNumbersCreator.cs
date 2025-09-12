@@ -29,11 +29,24 @@ public static class SurrealNumsCreator
 
     private static SurrealNum SimplifyInternal(SurrealNum num, List<SurrealNum> prev, int depth)
     {
-        if (depth >= SimplifyFastInternalLimit) return prev[0];
+        if (depth >= SimplifyFastInternalLimit)
+            Thrower.InvalidOpEx("Too much depth");
+
         var list = CreateNewBasedNumbers(prev);
 
-        if (num < list[0]) return SimplifyInternal(num, [prev[0] - One, prev[0]], depth + 1);
-        if (num > list[^1]) return SimplifyInternal(num, [prev[^1], prev[^1] + One], depth + 1);
+        if (num < list[0])
+        {
+            var cur = list[0];
+            while (num < cur) cur -= One;
+            return SimplifyInternal(num, [cur, cur + One], depth + 1);
+        }
+
+        if (num > list[^1])
+        {
+            var cur = list[^1];
+            while (num > cur) cur += One;
+            return SimplifyInternal(num, [cur - One, cur], depth + 1);
+        }
 
         for (var i = 0; i < list.Count; i++)
             if (list[i] == num)

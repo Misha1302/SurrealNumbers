@@ -3,7 +3,7 @@ using static SurrealNumber.SurrealCacheNumbers;
 
 var sw = Stopwatch.StartNew();
 
-Console.WriteLine(One / Three);
-Console.WriteLine(Three * (Five / Three));
+var q = Five / Three;
+Console.WriteLine(q);
 
 Console.WriteLine(sw.ElapsedMilliseconds);

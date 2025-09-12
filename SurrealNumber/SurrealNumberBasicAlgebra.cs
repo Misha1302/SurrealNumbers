@@ -26,7 +26,6 @@ public static class SurrealNumberBasicAlgebra
         if (_addCache.TryGetValue((x, y), out var result))
             return result;
 
-
         var leftSum = (IEnumerable<SurrealNum>) [];
         leftSum = x.L.Aggregate(leftSum, (current, num) => current.Union([num.Add(y)]));
         leftSum = y.L.Aggregate(leftSum, (current, yl) => current.Union([x.Add(yl)]));
@@ -104,9 +103,8 @@ public static class SurrealNumberBasicAlgebra
             while (x * guess > One) guess = guess.Half();
 
             var old = Zero;
-            // TODO: add support of infinity numbers
-            var i = 0;
-            while (i++ < 3)
+
+            while (true)
             {
                 guess *= Two - x * guess;
 

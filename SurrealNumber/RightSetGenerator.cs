@@ -4,7 +4,7 @@ public class RightSetGenerator(ISetGenerator generator) : SetGenerator(generator
 {
     private readonly Dictionary<int, SurrealNum> _numCache = [];
 
-    public override SurrealNum Num(int limit = int.MaxValue)
+    protected override SurrealNum NumInternal(int limit)
     {
         if (_numCache.TryGetValue(limit, out var num))
             return num;
