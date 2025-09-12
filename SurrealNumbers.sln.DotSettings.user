@@ -44,15 +44,15 @@
     &lt;TestId&gt;NUnit3x::200F75EE-306A-4457-BC1F-B2BFE96393C6::net8.0::SurrealArithmeticTests.Tests&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String>
-    <s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=58c56b00_002Df81e_002D48fd_002Da74f_002Dc8e84271fcf4/@EntryIndexedValue">&lt;SessionState ContinuousTestingIsOn="True" ContinuousTestingMode="3" IsActive="True" Name="Continuous Testing" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+    <s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=58c56b00_002Df81e_002D48fd_002Da74f_002Dc8e84271fcf4/@EntryIndexedValue">&lt;SessionState ContinuousTestingIsOn="True" ContinuousTestingMode="3" Name="Continuous Testing" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;TestAncestor&gt;
     &lt;TestId&gt;NUnit3x::200F75EE-306A-4457-BC1F-B2BFE96393C6::net8.0::SurrealArithmeticTests.Tests&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String>
-    <s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=705c5d31_002Dbdb0_002D47dd_002Daff9_002D2907a1784116/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="All tests from Solution" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+    <s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=705c5d31_002Dbdb0_002D47dd_002Daff9_002D2907a1784116/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="All tests from Solution" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;Solution /&gt;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=7c5730ff_002Dd1f9_002D4bfe_002D8ae2_002D0ab7c6236801/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="All tests from Solution" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+    <s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=7c5730ff_002Dd1f9_002D4bfe_002D8ae2_002D0ab7c6236801/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="All tests from Solution" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;Solution /&gt;
 &lt;/SessionState&gt;</s:String>
     <s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=b58d33c2_002D83e2_002D426b_002D8466_002Dd0873bd502df/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="TestB3" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
@@ -60,7 +60,7 @@
     &lt;TestId&gt;NUnit3x::200F75EE-306A-4457-BC1F-B2BFE96393C6::net8.0::SurrealArithmeticTests.Tests&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String>
-    <s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=ef6238f8_002D10dd_002D49ad_002Db893_002Dc69d5727bb78/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Test4" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+    <s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=ef6238f8_002D10dd_002D49ad_002Db893_002Dc69d5727bb78/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Test4" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;TestAncestor&gt;
     &lt;TestId&gt;NUnit3x::200F75EE-306A-4457-BC1F-B2BFE96393C6::net8.0::SurrealArithmeticTests.Tests.Test4&lt;/TestId&gt;
     &lt;TestId&gt;NUnit3x::200F75EE-306A-4457-BC1F-B2BFE96393C6::net8.0::SurrealArithmeticTests.Tests.Test7&lt;/TestId&gt;

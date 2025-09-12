@@ -187,4 +187,10 @@ public class Tests
     {
         Assert.That((-SurHalf / Three).ConvertToDouble().EqApprox(-0.5 / 3, 0.01), Is.EqualTo(true));
     }
+
+    [Test]
+    public void TestC2()
+    {
+        Assert.That((-(-SurHalf / Three)).ConvertToDouble().EqApprox(-(-0.5 / 3), 0.01), Is.EqualTo(true));
+    }
 }

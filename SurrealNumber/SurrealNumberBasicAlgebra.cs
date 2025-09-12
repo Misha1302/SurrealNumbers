@@ -39,8 +39,8 @@ public static class SurrealNumberBasicAlgebra
         if (_negateCache.TryGetValue(x, out var result))
             return result;
 
-        var left = x.R.Select(a => -a).Order();
-        var right = x.L.Select(a => -a).OrderDescending();
+        var left = x.R.Select(a => -a);
+        var right = x.L.Select(a => -a);
 
         return _negateCache[x] = SurrealNumberFabric.New(
             new LeftSetGenerator(new EnumerableGenerator(left)),

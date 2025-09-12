@@ -74,22 +74,6 @@ public static class SurrealNumsCreator
             ? 0
             : int.Max(num.L.Any() ? num.L.Num().GetBirthday() : -1, num.R.Any() ? num.R.Num().GetBirthday() : -1) + 1;
 
-    public static List<SurrealNum> GenerateNumbersForBirthday(int birthday)
-    {
-        Thrower.Assert(birthday <= 16, "Target birthday must be less than or equals to 16");
-
-        if (_numbersCache.TryGetValue(birthday, out var list))
-            return list;
-
-        if (birthday == 0) return [Zero];
-
-        var prev = GenerateNumbersForBirthday(birthday - 1);
-
-        var res = CreateNewBasedNumbers(prev);
-
-        return _numbersCache[birthday] = res;
-    }
-
     private static List<SurrealNum> CreateNewBasedNumbers(List<SurrealNum> prev)
     {
         var res = (List<SurrealNum>) [];
