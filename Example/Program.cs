@@ -1,8 +1,5 @@
 ﻿using System.Diagnostics;
-using SurrealNumber;
 using static SurrealNumber.SurrealCacheNumbers;
-
-SurrealNumberVerifier.Implementation = new SurrealNumberVerifierStub();
 
 var sw = Stopwatch.StartNew();
 

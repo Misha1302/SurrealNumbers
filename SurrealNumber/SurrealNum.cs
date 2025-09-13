@@ -59,7 +59,6 @@ public struct SurrealNum : IComparable<SurrealNum>, IEquatable<SurrealNum>
     public static SurrealNum operator -(SurrealNum a, SurrealNum b) => a + -b;
     public static SurrealNum operator -(SurrealNum a) => a.Negate();
 
-    // ReSharper disable once CompareOfFloatsByEqualityOperator
     public bool Equals(SurrealNum other) => L.Equals(other.L) && R.Equals(other.R);
 
     public override bool Equals(object? obj) => obj is SurrealNum other && Equals(other);

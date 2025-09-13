@@ -6,7 +6,6 @@ public static class SurrealNumsCreator
 {
     private const int SimplifyFastInternalLimit = 100;
     private static readonly Dictionary<SurrealNum, SurrealNum> _simplifiedCache = [];
-    private static readonly Dictionary<int, List<SurrealNum>> _numbersCache = [];
 
     private static readonly List<SurrealNum> _positiveIntegersCache = [Zero];
     private static readonly List<SurrealNum> _negativeIntegersCache = [Zero];
