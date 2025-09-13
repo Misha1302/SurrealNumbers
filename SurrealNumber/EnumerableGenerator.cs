@@ -5,7 +5,27 @@ public struct EnumerableGenerator(IEnumerable<SurrealNum> enumerable) : ISetGene
     private readonly IEnumerator<SurrealNum> _enumerator = enumerable.GetEnumerator();
     private int _maxInsuredCount;
 
-    public SurrealNum this[int index] => enumerable.ElementAt(int.Min(GetCount(index + 1) - 1, index));
+    private readonly Dictionary<int, SurrealNum> cache = [];
+
+    public SurrealNum this[int index]
+    {
+        get
+        {
+            if (cache.TryGetValue(index, out var value))
+                return value;
+            
+            var i = 0;
+            var res = default(SurrealNum);
+            foreach (var num in enumerable)
+            {
+                res = cache[index] = num;
+                if (i == index) break;
+                i++;
+            }
+
+            return res;
+        }
+    }
 
     public (bool, SurrealNum?) TryGetNext()
     {
